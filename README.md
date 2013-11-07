@@ -18,7 +18,7 @@ git clone git://github.com/patyx7/phagios.git
 ```
 and then including helper library at the top of your plugin file.
 ```  
-$phagios = require './phagios.php';
+$phagios = require './Phagios.php';
 ```
 
 Contribute and Feedback
