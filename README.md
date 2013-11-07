@@ -4,7 +4,7 @@ README
 Phagios - PHP 5.3+ Nagios Plugin Helper
 =======
 
-Phagios is work-in-progress PHP 5+ helper for building Nagios plugins using PHP.
+Phagios is work-in-progress PHP 5.3+ helper for building Nagios plugins using PHP.
 Being an alpha it is not recommended for use in production environments.
 
 Requirements
