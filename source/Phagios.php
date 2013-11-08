@@ -36,7 +36,6 @@ ini_set('display_startup_errors', true);
 
 /**
  * Main Phagios Class
- *
  */
 abstract class Phagios
 {
@@ -135,9 +134,9 @@ abstract class Phagios
     /**
      * Sets the verbosity level for the plugin that is about to run
      * 
-     * @param type $level 
+     * @param integer $level 
      * 
-     * @return type
+     * @return null
      */
     public function setVerbosity($level)
     {
@@ -149,8 +148,6 @@ abstract class Phagios
 
     /**
      * Main method to execute plugin's run method
-     * 
-     * @method main
      * 
      * @return null
      */
@@ -173,16 +170,16 @@ abstract class Phagios
 
     /**
      * Run the plugin
+     *
+     * @return  string  informational status data
      */
     abstract protected function run();
 
     /**
      * Exit gracefully with correct return codes
      *
-     * @method cleanExit
-     *
-     * @param  integer    $state   [description]
-     * @param  string    $message [description]
+     * @param   integer     $state      Exit status plugin should return
+     * @param   string      $message    Message plugin should return back to Nagios
      *
      * @return null  
      */
