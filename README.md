@@ -13,13 +13,24 @@ Requirements
 Installation and Usage
 ------------
 
-For now installing can be done by cloning the repository
+Installing Phagios can be done, first by cloning this repository.
 ```  
 git clone git://github.com/patyx7/phagios.git <directory>
 ```
-and then including helper library at the top of your PHP plugin file.
+Then including Phagios at the top of your PHP plugin file, having your plugin class extend Phagios, and making sure to run Phagios's main method, which will in turn run your plugin class' run method.
+
 ```  
-$phagios = require './<directory>/Phagios.php';
+<?php
+
+require './<directory>/Phagios.php';
+
+class yourNagiosPlugin extends Phagios 
+{
+    protected function run()
+    {
+        // Your plugin code here....
+    }
+}
 ```
 
 Contribute and Feedback
