@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
@@ -27,12 +27,30 @@
  * @author      Patrick Kuti <code@introspect.in>
  */
 
+// As per http://php.net/manual/en/function.date-default-timezone-set.php
 date_default_timezone_set('UTC');
-define("VERSION", '1.0.0');
 
+// Phagios version number
+define("VERSION", '0.1a');
+
+// Set timesouts as depicted in 
+// https://www.nagios-plugins.org/doc/guidelines.html#RUNTIME
 ini_set('max_execution_time', '55');
+
+// Do not abort on connection close from remote user
+ignore_user_abort(true);
+
+// Set up some error settings
+ini_set('error_reporting', E_ALL);
+ini_set('html_errors', false);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
+
+// Make sure we're running from the command line
+if (php_sapi_name() !== 'cli') {
+    exit('This should be run from the command line.');
+}
+
 
 /**
  * Main Phagios Class
@@ -42,6 +60,7 @@ abstract class Phagios
 
     /**
      * Nagios plugin return code of Unknown
+     * Should be used for invalid command line arguments or internal errors
      * 
      * @var integer
      */
@@ -49,6 +68,7 @@ abstract class Phagios
 
     /**
      * Nagios plugin return code of Critical
+     * Should be use for a host or service being down, or critical threshold being exceeded
      * 
      * @var integer
      */
@@ -56,6 +76,7 @@ abstract class Phagios
 
     /**
      * Nagios plugin return code of Warning
+     * Should be used for a host or service being up and not working correctly, or warning threshld being exceeded
      * 
      * @var integer
      */
@@ -63,6 +84,7 @@ abstract class Phagios
 
     /**
      * Nagios plugin return code of OK
+     * Should be used for a host or service being up and working correctly or responding in acceptable time
      * 
      * @var integer
      */
@@ -70,31 +92,35 @@ abstract class Phagios
 
     /**
      * Nagios verbosity level of summary (default)
+     * Should be used for minimal output
      * 
      * @var integer
      */
     const VERBOSE_SUMMARY = 0;
 
     /**
-     * Nagios verbosity level of additional information
+     * Nagios verbosity level of additional
+     * Should be used for additional information (e.g listing processes that failed)
      * 
      * @var integer
      */
     const VERBOSE_ADDITIONAL = 1;
 
     /**
-     * Nagios verbosity level of debug outout
+     * Nagios verbosity level of debug
+     * Should be used for configuration debug output (e.g commands used)
      * 
      * @var integer
      */
     const VERBOSE_DEBUG = 2;
 
     /**
-     * Nagios verbosity level of problem diagnosis
+     * Nagios verbosity level of problem
+     * Should be used for plugin problem diagnosis (e.g full stack traces)
      * 
      * @var integer
      */
-    const VERBOSE_DIAGNOSIS = 3;
+    const VERBOSE_PROBLEM = 3;
 
     /**
      * Name of the plugin that will be run
@@ -132,6 +158,17 @@ abstract class Phagios
     protected $verbosity = 0;
 
     /**
+     * Constructor
+     * 
+     * @return null
+     */
+    public function __construct()
+    {
+        # Always cleanup
+        register_shutdown_function(array(&$this, 'cleanUp'));
+    }
+
+    /**
      * Sets the verbosity level for the plugin that is about to run
      * 
      * @param integer $level 
@@ -140,8 +177,8 @@ abstract class Phagios
      */
     public function setVerbosity($level)
     {
-        if ($level > 3 || $level < 0) {
-            throw new Exception('Verbosity can only be set to an integer between and including 0 to 3.');
+        if (is_int($level) && ($level > 3 || $level < 0)) {
+            throw new InvalidArgumentException('Verbosity can only be set to an integer between and including 0 to 3.');
         }
         $this->verbosity = $level;
     }
@@ -186,7 +223,19 @@ abstract class Phagios
     private function cleanExit($state, $message)
     {
         print($message);
+        $this->cleanUp();
         exit($state);
+    }
+
+    /**
+     * Clean up any outstanding connections
+     * 
+     * @return boolean
+     */
+    private function cleanUp()
+    {
+        //TODO
+        return true;
     }
 }
 
