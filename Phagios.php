@@ -248,5 +248,3 @@ class PhagiosCritcalException extends Exception
 class PhagiosWarningException extends Exception
 {
 }
-
-return new Phagios();
