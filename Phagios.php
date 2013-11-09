@@ -31,7 +31,7 @@
 date_default_timezone_set('UTC');
 
 // Phagios version number
-define("VERSION", '0.1a');
+define("VERSION", '0.0.1a');
 
 // Set timesouts as depicted in 
 // https://www.nagios-plugins.org/doc/guidelines.html#RUNTIME
