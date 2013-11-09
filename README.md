@@ -1,24 +1,25 @@
 Phagios
 ======
 
-Phagios is helper library for building Nagios plugins using PHP.
+Phagios is PHP helper library for building Nagios plugins in PHP.
 It is work-in-progress alpha and is not recommended for use in production environments.
 
 Requirements
 ------------
 
 - PHP 5
+- Nagios 3+
 
 Installation and Usage
 ------------
 
 For now installing can be done by cloning the repository
 ```  
-git clone git://github.com/patyx7/phagios.git
+git clone git://github.com/patyx7/phagios.git <directory>
 ```
-and then including helper library at the top of your plugin file.
+and then including helper library at the top of your PHP plugin file.
 ```  
-$phagios = require './Phagios.php';
+$phagios = require './<directory>/Phagios.php';
 ```
 
 Contribute and Feedback
@@ -30,4 +31,4 @@ Also feel free to fork the project, create a feature branch, and send me a pull 
 License
 -------
 
-Phagios is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE.md](LICENSE.md) file for details.
+Phagios is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE.md](LICENSE.md) file for more details.
