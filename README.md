@@ -26,7 +26,7 @@ require './<directory>/Phagios.php';
 
 class yourNagiosPlugin extends Phagios 
 {
-    protected function run()
+    protected function runChecks()
     {
         // Your plugin code here....
     }
