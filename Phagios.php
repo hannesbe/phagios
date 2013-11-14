@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
@@ -24,7 +23,7 @@
  * @copyright   Copyright (c) 2013, Patrick Kuti
  * @license     http://www.gnu.org/licenses/gpl-3.0-standalone.html GNU General Public License
  * @link        http://github.com/patyx7/phagios
- * @author      Patrick Kuti <code@introspect.in>
+ * @author      Patrick Kuti <source.code@introspect.in>
  */
 
 // As per http://php.net/manual/en/function.date-default-timezone-set.php
@@ -33,7 +32,7 @@ date_default_timezone_set('UTC');
 // Phagios version number
 define("VERSION", '0.0.1a');
 
-// Set timesouts as depicted in 
+// Set timeouts as depicted in 
 // https://www.nagios-plugins.org/doc/guidelines.html#RUNTIME
 ini_set('max_execution_time', '55');
 
@@ -162,9 +161,10 @@ abstract class Phagios
      * 
      * @return null
      */
-    public function __construct()
+    public function __construct($options = array())
     {
-        # Always cleanup
+        // set options
+        # Always cleanup when the scriot has finished
         register_shutdown_function(array(&$this, 'cleanUp'));
     }
 
@@ -184,14 +184,14 @@ abstract class Phagios
     }
 
     /**
-     * Main method to execute plugin's run method
+     * Main method to execute plugin's runChecks method
      * 
      * @return null
      */
-    public function main()
+    public function run()
     {
         try {
-            $pluginResult = $this->run();
+            $pluginResult = $this->runChecks();
         } catch (PhagiosUnknownException $e) {
             $this->cleanExit(self::STATE_UNKNOWN, $e->getMessage());
         } catch (PhagiosCritcalException $e) {
@@ -210,7 +210,18 @@ abstract class Phagios
      *
      * @return  string  informational status data
      */
-    abstract protected function run();
+    abstract protected function runChecks();
+
+    /**
+     * Clean up any outstanding connections
+     * 
+     * @return boolean
+     */
+    private function cleanUp()
+    {
+        //TODO
+        return true;
+    }
 
     /**
      * Exit gracefully with correct return codes
@@ -225,17 +236,6 @@ abstract class Phagios
         print($message);
         $this->cleanUp();
         exit($state);
-    }
-
-    /**
-     * Clean up any outstanding connections
-     * 
-     * @return boolean
-     */
-    private function cleanUp()
-    {
-        //TODO
-        return true;
     }
 }
 
