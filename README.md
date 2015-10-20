@@ -1,17 +1,13 @@
-Phagios
-======
+# Phagios
 
-Phagios is PHP helper library for building Nagios plugins in PHP.
-It is work-in-progress alpha and is not recommended for use in production environments.
+Phagios is PHP helper library for building Icinga / Nagios plugins in PHP.
 
-Requirements
-------------
+## Requirements
 
 - PHP 5
-- Nagios 3+
+- Nagios 3+ / Icinga / Icinga2
 
-Installation and Usage
-------------
+## Installation and Usage
 
 Installing Phagios can be done, first by cloning this repository.
 ```  
@@ -24,7 +20,7 @@ Then including Phagios at the top of your PHP plugin file, having your plugin cl
 
 require './<directory>/Phagios.php';
 
-class yourNagiosPlugin extends Phagios 
+class yourNagiosPlugin extends Phagios
 {
     protected function runChecks()
     {
@@ -33,13 +29,11 @@ class yourNagiosPlugin extends Phagios
 }
 ```
 
-Contribute and Feedback
-------------
+## Contribute and Feedback
 
 Please submit issues and send your feedback and suggestions as often as you have them.
 Also feel free to fork the project, create a feature branch, and send me a pull request and I will review it.
 
-License
--------
+## License
 
 Phagios is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE.md](LICENSE.md) file for more details.
