@@ -40,5 +40,6 @@ Please submit issues and send your feedback and suggestions as often as you have
 Also feel free to fork the project, create a feature branch, and send me a pull request and I will review it.
 
 ## License
+[![GitHub license](https://img.shields.io/github/license/hannesbe/phagios.svg)](https://raw.githubusercontent.com/hannesbe/phagios/master/LICENSE)
 
-Phagios is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE](LICENSE) file for more details.
+See the [LICENSE](LICENSE) file for more details.
