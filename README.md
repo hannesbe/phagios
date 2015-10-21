@@ -1,5 +1,10 @@
 # Phagios
 
+[![GitHub license](https://img.shields.io/github/license/hannesbe/phagios.svg)](https://raw.githubusercontent.com/hannesbe/phagios/master/LICENSE)
+
+[![GitHub release](https://img.shields.io/github/release/hannesbe/phagios.svg)](https://github.com/hannesbe/phagios/releases) [![GitHub commits](https://img.shields.io/github/commits-since/hannesbe/phagios/0.0.2.svg)](https://github.com/hannesbe/php-ahsay-api-wrapper/commits/1.1)
+
+
 Phagios is PHP helper library for building Icinga / Nagios plugins in PHP.
 
 ## Requirements
