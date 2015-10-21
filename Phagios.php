@@ -28,11 +28,11 @@
  */
 
 // Phagios version number
-define('VERSION', '0.0.2');
+define('VERSION', '0.1.0');
 
 // Set timeouts as depicted in
 // https://www.nagios-plugins.org/doc/guidelines.html#RUNTIME
-ini_set('max_execution_time', '55');
+ini_set('max_execution_time', '10');
 
 // Do not abort on connection close from remote user
 ignore_user_abort(true);
@@ -131,14 +131,14 @@ abstract class Phagios
      *
      * @var string
      */
-    protected $pluginVersion = '0.0.1a';
+    protected $pluginVersion = '0.1.0';
 
     /**
      * Description of the plugin that will be run.
      *
      * @var string
      */
-    protected $pluginDescription = 'Nagios Plugin Helper for PHP';
+    protected $pluginDescription = 'Icinga2 / Nagios plugin';
 
     /**
      * Example usage of the plugin that will be run.
@@ -160,7 +160,6 @@ abstract class Phagios
     -v|vv|vvv, --verbose
     Verbose output
 
-
     -V, --version
     Version information
     ';
@@ -181,9 +180,6 @@ abstract class Phagios
      */
     public function __construct($pluginOpts = array())
     {
-        // As per http://php.net/manual/en/function.date-default-timezone-set.php
-        date_default_timezone_set($this->pluginTimeZone);
-
         # Define default shortopts
         $defaultShortOpts = 'V';
         $defaultShortOpts .= 'vv:';
@@ -191,6 +187,7 @@ abstract class Phagios
         $defaultShortOpts .= 't:';
         $defaultShortOpts .= 'w:';
         $defaultShortOpts .= 'c:';
+        $defaultShortOpts .= 'z:';
 
         # Merge plugin & default shortopts
         $this->pluginShortOpts .= $defaultShortOpts;
@@ -203,6 +200,7 @@ abstract class Phagios
             'timeout:',
             'warning:',
             'critical:',
+            'timezone:',
         );
 
         # Merge plugin & default longopts
@@ -225,6 +223,10 @@ abstract class Phagios
         }
 
         $this->debugOutput("\n".print_r($this->pluginOpts, true), self::VERBOSE_DEBUG);
+
+        // As per http://php.net/manual/en/function.date-default-timezone-set.php
+        date_default_timezone_set($this->pluginTimeZone);
+        $this->debugOutput('Timezone: '.$this->pluginTimeZone, self::VERBOSE_ADDITIONAL);
 
         # Always cleanup when the script has finished
         register_shutdown_function(array($this, 'cleanUp'));
@@ -258,6 +260,7 @@ abstract class Phagios
                         break;
                     }
                     break;
+                    $this->debugOutput('Verbosity: '.$verbosity, self::VERBOSE_ADDITIONAL);
 
                     # Exit unknown with version information.
                     case 'V':
@@ -273,7 +276,15 @@ abstract class Phagios
 
                     # Set Timeout
                     case 't':
-                    # TODO
+                    ini_set('max_execution_time', $this->pluginOpts['t']);
+                    $this->debugOutput('Timeout argument overwrite: '.$this->pluginOpts['t'], self::VERBOSE_ADDITIONAL);
+                    break;
+
+                    # Set Timezone
+                    case 'z':
+                    $this->pluginTimeZone = $this->pluginOpts['z'];
+                    date_default_timezone_set($this->pluginTimeZone);
+                    $this->debugOutput('Timezone argument overwrite: '.$this->pluginOpts['z'], self::VERBOSE_ADDITIONAL);
                     break;
 
                     default:
@@ -290,7 +301,7 @@ abstract class Phagios
     public function setVerbosity($level)
     {
         if (is_int($level) && ($level > 3 || $level < 0)) {
-            throw new InvalidArgumentException('Verbosity can only be set to an integer between and including 0 to 3.');
+            throw new InvalidArgumentException('Verbosity can only be set to a value between 0 and 3. Defaults to 0.');
         }
         $this->verbosity = $level;
         $this->debugOutput('Verbosity set', self::VERBOSE_ADDITIONAL);
@@ -330,7 +341,7 @@ abstract class Phagios
      */
     private function cleanUp()
     {
-        //TODO
+        // TODO
         return true;
     }
 
@@ -361,8 +372,7 @@ class PhagiosUnknownException extends Exception
     // Redefine the exception so message isn't optional
     public function __construct($message, $code = 0, Exception $previous = null)
     {
-        // some code
-
+        $message = 'UNKNOWN - '.$message;
         // make sure everything is assigned properly
         parent::__construct($message, $code, $previous);
     }
@@ -378,8 +388,7 @@ class PhagiosCriticalException extends Exception
     // Redefine the exception so message isn't optional
     public function __construct($message, $code = 0, Exception $previous = null)
     {
-        // some code
-
+        $message = 'CRITICAL - '.$message;
         // make sure everything is assigned properly
         parent::__construct($message, $code, $previous);
     }
@@ -395,8 +404,7 @@ class PhagiosWarningException extends Exception
     // Redefine the exception so message isn't optional
     public function __construct($message, $code = 0, Exception $previous = null)
     {
-        // some code
-
+        $message = 'WARNING - '.$message;
         // make sure everything is assigned properly
         parent::__construct($message, $code, $previous);
     }
