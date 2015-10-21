@@ -41,4 +41,4 @@ Also feel free to fork the project, create a feature branch, and send me a pull 
 
 ## License
 
-Phagios is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE.md](LICENSE.md) file for more details.
+Phagios is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE](LICENSE) file for more details.
