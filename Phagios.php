@@ -362,7 +362,7 @@ abstract class Phagios
     protected function debugOutput($message, $outputVerbosity)
     {
         if ($this->verbosity >= $outputVerbosity) {
-            printf("%s\n", "--V$this->verbosity-- $message");
+            printf("%s\n", '['.str_repeat('v', $this->verbosity)."] $message");
         }
     }
 }
