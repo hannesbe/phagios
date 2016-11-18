@@ -316,7 +316,7 @@ abstract class Phagios
             $pluginResult = $this->runChecks();
         } catch (PhagiosUnknownException $e) {
             $this->cleanExit(self::STATE_UNKNOWN, $e->getMessage());
-        } catch (PhagiosCritcalException $e) {
+        } catch (PhagiosCriticalException $e) {
             $this->cleanExit(self::STATE_CRITICAL, $e->getMessage());
         } catch (PhagiosWarningException $e) {
             $this->cleanExit(self::STATE_WARNING, $e->getMessage());
